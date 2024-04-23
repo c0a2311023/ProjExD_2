@@ -11,6 +11,26 @@ DELTA = {  # 移動量辞書（押下キー：移動量タプル）
     pg.K_LEFT: (-5, 0),
     pg.K_RIGHT: (+5, 0),
 }
+
+
+ANGLE = {  # transform.rorozoomのangle引数に代入する数値の辞書
+    """
+    キーを押したらこうかとんのアングルがそのキーの向きになるように
+    キーとアングルを対応した辞書を作る
+    （これだとできないのかもしれない）
+    """
+    pg.K_UP : (1/4),
+    pg.K_DOWN : (3/4),
+    pg.K_LEFT : (1/2),
+    pg.K_RIGHT : (0)
+}
+
+
+muki = {  # 押下キーに対する移動量の合計値タプルをキー，rotozoomしたSurfaceを値とした辞書
+
+}
+
+
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -37,7 +57,7 @@ def main():
     kk_rct = kk_img.get_rect()
     kk_rct.center = 900, 400
     # ここから爆弾の設定
-    bd_img = pg.Surface((20, 20))
+    bd_img = pg.Surface((20,20))
     bd_img.set_colorkey((0, 0, 0))
     pg.draw.circle(bd_img, (255, 0, 0), (10, 10), 10)
     bd_rct = bd_img.get_rect()
@@ -63,6 +83,11 @@ def main():
             if key_lst[k]:
                sum_mv[0] += v[0]
                sum_mv[1] += v[1]
+        for i, j in ANGLE.items():  # こうかとんの角度調整(途中)
+            if key_lst[i]:
+                kk_img = pg.transform.rotozoom(pg.image.load("fig/3.png"), j[0], 2.0)
+
+        screen.blit(kk_img, kk_rct)
         kk_rct.move_ip(sum_mv)
         if check_bound(kk_rct) != (True, True):
             kk_rct.move_ip(-sum_mv[0], -sum_mv[1])
