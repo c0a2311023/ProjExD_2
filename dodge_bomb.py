@@ -2,6 +2,7 @@ import os
 import random
 import sys
 import pygame as pg
+import math
 
 
 WIDTH, HEIGHT = 1600, 900
@@ -12,14 +13,13 @@ DELTA = {  # 移動量辞書（押下キー：移動量タプル）
     pg.K_RIGHT: (+5, 0),
 }
 
-
-ANGLE = {  # transform.rorozoomのangle引数に代入する数値の辞書
-    """
+"""
     キーを押したらこうかとんのアングルがそのキーの向きになるように
     キーとアングルを対応した辞書を作る
     （これだとできないのかもしれない）
     """
-    pg.K_UP : (1/4),
+ANGLE = {  # transform.rorozoomのangle引数に代入する数値の辞書
+    pg.K_UP : ((math.pi)/4),
     pg.K_DOWN : (3/4),
     pg.K_LEFT : (1/2),
     pg.K_RIGHT : (0)
@@ -27,7 +27,7 @@ ANGLE = {  # transform.rorozoomのangle引数に代入する数値の辞書
 
 
 muki = {  # 押下キーに対する移動量の合計値タプルをキー，rotozoomしたSurfaceを値とした辞書
-
+    (0, -5) : (math.pi/4)
 }
 
 
@@ -69,7 +69,6 @@ def main():
     while True:
         for event in pg.event.get():
             if event.type == pg.QUIT: 
-                return
                 return
             if kk_rct.colliderect(bd_rct):
                 print("Game Over")
